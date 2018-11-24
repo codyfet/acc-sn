@@ -1,0 +1,17 @@
+.generate-paddings(@i) when (@i <= 10) {
+  .pb-@{i} {
+    padding-bottom: @i * @base !important;
+  }
+  .pt-@{i} {
+    padding-top: @i * @base !important;
+  }
+  .pl-@{i} {
+    padding-left: @i * @base !important;
+  }
+  .pr-@{i} {
+    padding-right: @i * @base !important;
+  }
+  .generate-paddings(@i + 1);
+}
+
+.generate-paddings(0);
