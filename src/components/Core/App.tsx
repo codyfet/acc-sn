@@ -5,8 +5,8 @@ import {Main} from '../Modules/Main/Main';
 const Chatkit = require('@pusher/chatkit');
 
 import {Login} from '../Modules/Login/Login';
-import {LoginData} from '../../models/Common';
-import { login } from '../../services/services';
+import {LoginData, User} from '../../models/Common';
+import {login} from '../../services/services';
 
 interface IProps {
 
@@ -22,6 +22,7 @@ interface IProps {
  */
 interface IState {
     chatkitUser: object;
+    user: User;
     loginView: boolean;
     loginViewError: boolean;
     loginData: LoginData;
@@ -36,6 +37,7 @@ export class App extends React.Component<IProps, IState> {
 
         this.state = {
             chatkitUser: null,
+            user: null,
             loginView: true,
             loginViewError: false,
             loginData: null,
@@ -58,6 +60,9 @@ export class App extends React.Component<IProps, IState> {
                 this.setState({
                     chatkitUser: currentUser
                 });
+
+                console.log('currentUser');
+                console.log(currentUser);
 
                 // Подключаемся к комнате.
                 // currentUser.subscribeToRoom({
@@ -109,9 +114,10 @@ export class App extends React.Component<IProps, IState> {
         // Логинимся в нашу систему.
         login(loginData).then(
             (response: any) => {
-                if (response.data.authentication) {
+                if (!!response.data.user) {
                     this.setState({
-                        loginView: false
+                        loginView: false,
+                        user: response.user
                     });
                     // Коннектимся к chatkit ui.
                     this.connectToChat();
@@ -145,7 +151,10 @@ export class App extends React.Component<IProps, IState> {
             return (
                 <React.Fragment>
                     <Header />
-                    <Main onLogout={this.handleLogout}/>
+                    <Main 
+                        onLogout={this.handleLogout}
+                        user={this.state.chatkitUser} 
+                    />
                 </React.Fragment>
             );
         }
@@ -158,6 +167,5 @@ export class App extends React.Component<IProps, IState> {
         );
 
         return <Login onEnterClick={this.handleEnterClick}/>;
-    }    
-
+    }
 }
