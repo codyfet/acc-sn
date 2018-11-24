@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import {Header} from './Header';
-import {Main} from './Main';
+import {Header} from '../Modules/Header/Header';
+import {Main} from '../Modules/MainPage/Main';
 
 export const App = () => {
     return (
