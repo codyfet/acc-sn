@@ -1,13 +1,13 @@
 import * as React from 'react';
-import {FormGroup, FormControl, Button} from 'react-bootstrap';
+import { FormGroup, FormControl, Button } from 'react-bootstrap';
+import { LoginData } from '../../../models/Common';
 
 interface IProps {
-    onEnterClick: () => void;
+    onEnterClick: (loginData: object) => void;
 }
 
 interface IState {
-    username: string;
-    password: string;
+    loginData: LoginData;
     toMainPage: boolean;
 }
 
@@ -16,28 +16,36 @@ export class Login extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            username: null,
-            password: null,
+            loginData: {
+                username: 'a.volkov',
+                password: '123456'
+            },
             toMainPage: false
         }
     }
 
     handleUsernameChange = (event: any): void => {
         this.setState({
-            username: event.currentTarget.value
+            loginData: {
+                ...this.state.loginData,
+                username: event.currentTarget.value
+            }
         })
     }
 
     handlePasswordChange = (event: any): void => {
         this.setState({
-            password: event.currentTarget.value
+            loginData: {
+                ...this.state.loginData,
+                password: event.currentTarget.value
+            }
         })
     }
 
     handleEnterClick = () => {
-        this.props.onEnterClick();
+        this.props.onEnterClick(this.state.loginData);
     }
-
+    
     render () {   
         return (
             <form className="login-form">
