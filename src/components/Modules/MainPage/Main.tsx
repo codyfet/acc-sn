@@ -3,9 +3,9 @@ import * as ReactDOM from 'react-dom';
 
 import {Switch, Route} from 'react-router-dom';
 
-import {Search} from './Search';
-import {Profile} from './Profile';
-import {Home} from './Home';
+import {Search} from '../Search/Search';
+import {Profile} from '../Profile/Profile';
+import {Home} from '../Home/Home';
 
 export const Main = () => {
     return (
