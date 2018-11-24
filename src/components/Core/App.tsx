@@ -36,8 +36,6 @@ export class App extends React.Component<IProps, IState> {
             isLoading: true
         });
 
-        console.log(Chatkit);
-
         const chatManager = new Chatkit.ChatManager({
             instanceLocator: 'v1:us1:2847dca1-27c1-4716-a4bd-fe2089a67d6f',
             userId: this.state.loginData.username,
