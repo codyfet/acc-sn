@@ -1,6 +1,6 @@
-import {isFunction} from 'lodash'
 import * as React from 'react';
 import {Button} from 'react-bootstrap';
+import {EButtonStyle} from './Enums';
 
 const classNames = require('classnames');
 
@@ -10,47 +10,42 @@ const classNames = require('classnames');
  * @prop {string} [className] CSS-классы компонента.
  * @prop {boolean} [disabled] Признак, заблокирован ли компонент.
  * @prop {string} [label] Лейбл кнопки
- * @prop {Function} [onChange] Коллбэк на изменение значения переключателя.
+ * @prop {Function} [onClick] Коллбэк на изменение значения переключателя.
  * @prop {string} [iconClass] Класс иконки.
  */
 interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
     className?: string;
     disabled?: boolean;
     label?: string;
-    onChange?: () => void;
+    onClick?: () => void;
     iconClass?: string;
+    btnStyle?: EButtonStyle;
 }
 
 /**
  * Компонент простой кнопки с возможностью иконок.
  */
 export class SimpleButton extends React.PureComponent<IProps> {
+    static defaultProps: Partial<IProps> = {
+        btnStyle: EButtonStyle.SUCCESS
+    }
 
     static displayName = 'Button';
-
-    /**
-     * Обработчик изменения выбранного значения.
-     *
-     * @param {React.SyntheticEvent<HTMLInputElement>} event Событие.
-     */
-    handleChange = () => {
-        const {onChange} = this.props;
-
-        isFunction(onChange) && onChange();
-    }
 
     render() {
         const {
             className,
             disabled,
             iconClass,
-            label
+            label,
+            btnStyle,
+            onClick
         } = this.props;
 
         return (
             <Button
-                onClick={this.handleChange}
-                bsStyle="success"
+                onClick={onClick}
+                bsStyle={btnStyle}
                 disabled={disabled}
                 className={classNames(className)}
                 title={label}

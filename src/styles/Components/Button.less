@@ -4,7 +4,60 @@
     }
 }
 
+.btn-question {
+    .button-mixin(@color-white, @color-white, @base-text-color, @color-white);
+    text-decoration: underline;
+}
+
 .btn-success {
-    background-color: @base-btn-color;
-    border-color: @base-btn-border-color;
+    .button-mixin(@base-btn-color, @base-btn-color-highlight, @color-white, @base-btn-border-color);
+}
+
+.button-mixin (@bg-color, @bg-color-hover, @text-color, @border-color) {
+    color: @text-color;
+    border-color: @border-color;
+    background-color: @bg-color;
+    outline: none;
+
+    &:focus:hover,
+    &:hover {
+        color: @text-color;
+        border-color: @border-color;
+        background-color: @bg-color-hover;
+    }
+
+    &:focus,
+    &.focus,
+    &:active,
+    &.active,
+    &:active:hover,
+    &.active:hover,
+    &:active:focus,
+    &.active:focus,
+    &:active.focus,
+    &.active.focus {
+        color: @text-color;
+        border-color: @border-color;
+        background-color: @bg-color;
+        box-shadow: none;
+        outline: none;
+    }
+
+    &.disabled,
+    &:disabled,
+    &.disabled:hover,
+    &:disabled:hover,
+    &[disabled],
+    &[disabled]:hover,
+    fieldset[disabled] & {
+        opacity: 1;
+        color: fadeout(@text-color, 40%);
+        border-color: fadeout(@border-color, 80%);
+        background-color: fadeout(@bg-color, 40%);
+        cursor: not-allowed;
+    }
+
+    .fa {
+        margin-right: @base*2;
+    }
 }

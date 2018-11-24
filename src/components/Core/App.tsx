@@ -94,17 +94,23 @@ export class App extends React.Component<IProps, IState> {
         })
     }
 
+    handleLogout = () => {
+        this.setState({
+            loginView: true
+        })
+    }
+
     render () {
         if (!this.state.loginView) {
             return (
                 <React.Fragment>
                     <Header />
-                    <Main />
+                    <Main onLogout={this.handleLogout}/>
                 </React.Fragment>
             )
         }
 
-        return <Login onEnterClick={this.handleEnterClick} />;
+        return <Login onEnterClick={this.handleEnterClick}/>;
     }    
 
 }

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {FormGroup, FormControl, Button} from 'react-bootstrap';
+import {FormGroup, FormControl} from 'react-bootstrap';
+import {SimpleButton} from '../../Core/SimpleButton';
 
 interface IProps {
     onEnterClick: () => void;
@@ -54,7 +55,7 @@ export class Login extends React.Component<IProps, IState> {
                         placeholder="Пароль"
                         onChange={this.handlePasswordChange}
                     />
-                    <Button onClick={this.handleEnterClick}>Вход</Button>
+                    <SimpleButton onClick={this.handleEnterClick} label="Вход" iconClass="fa-sign-in"/>
                 </FormGroup>
           </form>
         )
