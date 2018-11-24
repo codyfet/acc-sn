@@ -15,6 +15,7 @@ import {EQuestionType} from '../Questions/Models';
 
 interface IProps {
     onLogout: () => void;
+    user: any;
 }
 
 export const Main: React.SFC<IProps> = (props: IProps) => {
@@ -55,7 +56,7 @@ export const Main: React.SFC<IProps> = (props: IProps) => {
                     <Switch>
                         <Route exact path='/' component={Home} />
                         <Route path='/profile' component={Profile} />
-                        <Route path='/conversations' component={Conversations} />
+                        <Route path='/conversations' component={() => <Conversations rooms={props.user.rooms} />} />
                         <Route path='/groups' component={Groups} />
                         <Route path='/news' component={News} />
                         <Route path='/it-questions' component={() => <Questions questionType={EQuestionType.IT}/>} />

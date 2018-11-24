@@ -18,8 +18,8 @@ export class Login extends React.Component<IProps, IState> {
 
         this.state = {
             loginData: {
-                username: 'a.volkov',
-                password: '123456'
+                username: null,
+                password: null
             },
             toMainPage: false
         }

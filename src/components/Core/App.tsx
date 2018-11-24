@@ -5,17 +5,29 @@ import {Main} from '../Modules/Main/Main';
 const Chatkit = require('@pusher/chatkit');
 
 import {Login} from '../Modules/Login/Login';
-import {LoginData} from '../../models/Common';
+import {LoginData, User} from '../../models/Common';
+import {login} from '../../services/services';
 
 interface IProps {
 
 }
 
+/**
+ * @prop {object} chatkitUser Chatkit пользователь.
+ * @prop {boolean} loginView Признак отрисовки экрана логин.
+ * @prop {boolean} loginViewError Признак ошибки выполнения запроса на логин в нашу систему.
+ * @prop {LoginData} loginData Данные с формы логина.
+ * @prop {boolean} isLoading Признак загрузки.
+ * @prop {Array} rooms Комнаты пользователя.
+ */
 interface IState {
     chatkitUser: object;
+    user: User;
     loginView: boolean;
+    loginViewError: boolean;
     loginData: LoginData;
     isLoading: boolean;
+    rooms: Array<number>;
 }
 
 export class App extends React.Component<IProps, IState> {
@@ -25,17 +37,16 @@ export class App extends React.Component<IProps, IState> {
 
         this.state = {
             chatkitUser: null,
+            user: null,
             loginView: true,
+            loginViewError: false,
             loginData: null,
-            isLoading: false
+            isLoading: false,
+            rooms: [19385475]
         }
     }
 
     connectToChat () {
-        this.setState({
-            isLoading: true
-        });
-
         const chatManager = new Chatkit.ChatManager({
             instanceLocator: 'v1:us1:2847dca1-27c1-4716-a4bd-fe2089a67d6f',
             userId: this.state.loginData.username,
@@ -87,9 +98,6 @@ export class App extends React.Component<IProps, IState> {
                 if (error.statusCode === 404) {
                     alert('Такого пользователя не существует');
                 }
-                this.setState({
-                    isLoading: false
-                });
             })
     }
 
@@ -102,11 +110,34 @@ export class App extends React.Component<IProps, IState> {
     //     })
     // }
 
+    login (loginData: LoginData) {
+        // Логинимся в нашу систему.
+        login(loginData).then(
+            (response: any) => {
+                if (!!response.data.user) {
+                    this.setState({
+                        loginView: false,
+                        user: response.user
+                    });
+                    // Коннектимся к chatkit ui.
+                    this.connectToChat();
+                } else {
+                    this.setState({
+                        loginViewError: true
+                    });
+                }
+            },
+            (error: any) => {
+                console.log('login error');
+                console.log(error);
+            }
+        );
+    }
+
     handleEnterClick = (loginData: LoginData) => {
         this.setState({
-            loginView: false,
             loginData
-        }, () => this.connectToChat())
+        }, () => this.login(loginData))
     }
 
     handleLogout = () => {
@@ -120,12 +151,21 @@ export class App extends React.Component<IProps, IState> {
             return (
                 <React.Fragment>
                     <Header />
-                    <Main onLogout={this.handleLogout}/>
+                    <Main 
+                        onLogout={this.handleLogout}
+                        user={this.state.chatkitUser} 
+                    />
                 </React.Fragment>
-            )
+            );
         }
 
-        return <Login onEnterClick={this.handleEnterClick}/>;
-    }    
+        return (
+            <React.Fragment>
+                <Login onEnterClick={this.handleEnterClick} />
+                {this.state.loginViewError && <span>Неправильный логин или пароль!</span>}
+            </React.Fragment>
+        );
 
+        return <Login onEnterClick={this.handleEnterClick}/>;
+    }
 }

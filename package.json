@@ -1,23 +1,25 @@
 {
   "name": "react-workspace",
   "version": "1.0.0",
-  "description": "Простой воркспейс для старта разработки реакт приложения.",
+  "description": "acc-sn приложение",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development --open --hot",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codyfet/react-workspace.git"
+    "url": "git+https://github.com/codyfet/acc-sn.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/codyfet/react-workspace/issues"
+    "url": "https://github.com/codyfet/acc-sn/issues"
   },
-  "homepage": "https://github.com/codyfet/react-workspace#readme",
+  "homepage": "https://github.com/codyfet/acc-sn#readme",
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
     "css-loader": "^0.28.11",
@@ -47,6 +49,7 @@
     "@types/react-textarea-autosize": "^4.3.3",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "gh-pages": "^2.0.1",
     "install": "^0.12.2",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
