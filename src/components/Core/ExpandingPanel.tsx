@@ -51,7 +51,8 @@ interface IState {
 const panelClassNameMap = {
     [EExpandingPanelType.EXPANDING_BLOCK]: 'expanding-block',
     [EExpandingPanelType.EXPANDING_PANEL]: 'expanding-panel',
-    [EExpandingPanelType.SPOILER]: 'spoiler'
+    [EExpandingPanelType.SPOILER]: 'spoiler',
+    [EExpandingPanelType.MENU]: 'expanding-menu'
 }
 
 /**
