@@ -11,6 +11,7 @@ import {Questions} from '../Questions/Questions';
 import {ExpandingPanel} from '../../Core/ExpandingPanel';
 import {EExpandingPanelType} from '../../Core/Enums';
 import {MenuLabel} from './MenuLabel';
+import {EQuestionType} from '../Questions/Models';
 
 export const Main = () => {
     const questionsElement = (
@@ -22,13 +23,14 @@ export const Main = () => {
             panelType={EExpandingPanelType.MENU}
             header="Вопросы"
         >
-            <MenuLabel name="Human Resources" route="questions" iconClass="fa-user-circle" className="pl-0 mb-2"/>
-            <MenuLabel name="Tver IT" route="questions" iconClass="fa-user-circle" className="pl-0 mb-2"/>
-            <MenuLabel name="Карьера" route="questions" iconClass="fa-user-circle" className="pl-0 mb-2"/>
+            <MenuLabel name="Human Resources" route="hr-questions" iconClass="fa-user-circle" className="pl-0 mb-2"/>
+            <MenuLabel name="Tver IT" route="it-questions" iconClass="fa-user-circle" className="pl-0 mb-2"/>
+            <MenuLabel name="Workplace" route="wp-questions" iconClass="fa-user-circle" className="pl-0 mb-2"/>
+            <MenuLabel name="Careers" route="cr-questions" iconClass="fa-user-circle" className="pl-0 mb-2"/>
         </ExpandingPanel>
     )
     return (
-        <Grid>
+        <Grid className="main">
             <Row className="show-grid">
                 <Col xs={3}>
                     <MenuLabel name="Профиль" route="profile" iconClass="fa-user-circle"/>
@@ -47,7 +49,10 @@ export const Main = () => {
                         <Route path='/conversations' component={Conversations} />
                         <Route path='/groups' component={Groups} />
                         <Route path='/news' component={News} />
-                        <Route path='/questions' component={Questions} />
+                        <Route path='/it-questions' component={() => <Questions questionType={EQuestionType.IT}/>} />
+                        <Route path='/hr-questions' component={() => <Questions questionType={EQuestionType.HR}/>} />
+                        <Route path='/wp-questions' component={() => <Questions questionType={EQuestionType.WORKPLACE}/>} />
+                        <Route path='/cr-questions' component={() => <Questions questionType={EQuestionType.CAREERS}/>} />
                     </Switch>
                 </Col>
             </Row>
