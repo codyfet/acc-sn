@@ -1,6 +1,6 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import {Navbar, Nav, NavItem, FormGroup, FormControl, Button} from 'react-bootstrap';
+
 import {Link} from 'react-router-dom';
 
 /**
