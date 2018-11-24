@@ -1,0 +1,140 @@
+
+/*Стили компонента LayoutPanel*/
+.layout-panel {
+    background: @color-white;
+    border: 1px solid @color-gray-light;
+    border-radius: @base/2;
+    padding: @base*3 @base*4;
+
+    &-header {
+        font-size: @font-size-large;
+        border-bottom: 2px solid @color-gray-light;
+        padding: 0 0 @base*2 @base;
+        margin-bottom: @base*3;
+    }
+
+    &-body {
+        position: relative;
+        padding:0 @base;
+    }
+}
+
+/*Стили компонента ExpandingPanel*/
+.expanding-panel {
+    border: none;
+    box-shadow: none;
+    margin-bottom: 0;
+    position: relative;
+
+    &-header {
+        position: relative;
+        padding: @base*2 @base*2 @base*2 @base*4;
+        cursor: pointer;
+
+        .expanding-panel-icon {
+            font-size: @font-size-smaller;
+            position: absolute;
+            left: 0;
+            top: @base*3;
+        }
+
+        .expanding-panel-title {
+            font-weight: bold;
+        }
+
+        &.collapsed {
+            border-bottom: 2px solid @color-gray-light;
+        }
+
+        &.expanded {
+            border-bottom: 2px solid @base-theme-color;
+        }
+    }
+
+    &-body {
+        padding: @base*4 0 @base*4 @base*4;
+    }
+}
+
+.expanding-block {
+    border: 1px solid @color-gray-light;
+    border-radius: 0;
+    padding: @base*3 @base*4 @base*4 @base*4;
+    margin-bottom: 0;
+    position: relative;
+
+    &-header {
+        font-size: @font-size-larger;
+        border-bottom: 1px solid @color-gray-light;
+        padding: 0 0 @base*3 @base*4;
+        cursor: pointer;
+        position: relative;
+
+        .expanding-block-icon {
+            font-size: @font-size-smaller;
+            position: absolute;
+            left: 0;
+            top: @base*1.5;
+        }
+    }
+
+    &-body {
+        padding: @base*3 0 0 @base*4;
+    }
+
+    &-actions-panel {
+        position: absolute;
+        top: @base*3;
+        right: @base*4;
+    }
+}
+
+.spoiler {
+    border: none;
+    box-shadow: none;
+    margin-bottom: 0;
+
+    &-header {
+        padding-bottom: @base*4;
+
+        .btn-link {
+            padding: 0 0 0 @base;
+            outline: none;
+        }
+
+        .spoiler-icon {
+            font-size: @font-size-smaller;
+            color: @base-theme-color;
+            vertical-align: middle;
+        }
+    }
+
+    &-body {
+        padding: 0;
+    }
+}
+
+.information-plate {
+    padding: @base*3;
+    border-radius: @base/2;
+    color: @color-white;
+    font-weight: bold;
+    text-align: center;
+
+    &.info {
+        background-color: @base-theme-color;
+    }
+
+    &.warning {
+        background-color: @base-warning-color;
+    }
+
+    &.danger {
+        background-color: @base-danger-color;
+    }
+
+    &.neutral {
+        background-color: @color-gray-light;
+        color: @base-text-color;
+    }
+}

@@ -1,0 +1,17 @@
+.generate-margins(@i) when (@i <= 10) {
+  .mb-@{i} {
+    margin-bottom: @i * @base !important;
+  }
+  .mt-@{i} {
+    margin-top: @i * @base !important;
+  }
+  .ml-@{i} {
+    margin-left: @i * @base !important;
+  }
+  .mr-@{i} {
+    margin-right: @i * @base !important;
+  }
+  .generate-margins(@i + 1);
+}
+
+.generate-margins(0);
