@@ -5,6 +5,7 @@ import {ExpandingPanel} from '../../Core/ExpandingPanel';
 import {EExpandingPanelType, EButtonStyle} from '../../Core/Enums';
 import {questionsMock} from './QuestionsMock';
 import {SimpleButton} from '../../Core/SimpleButton';
+import {LayoutHeader} from '../Header/LayoutHeader';
 
 interface IProps {
     questionType: EQuestionType;
@@ -38,10 +39,41 @@ export class Questions extends React.PureComponent<IProps> {
         })
     }
 
+    getLabel = () => {
+        const {questionType} = this.props;
+        let result = 'Вопросы';
+
+        switch (questionType) {
+            case EQuestionType.CAREERS:
+                result = 'Вопросы Карьеры'
+                break;
+            case EQuestionType.HR:
+                result = 'Вопросы Human Resource'
+                break;
+            case EQuestionType.IT:
+                result = 'Вопросы Тверского IT'
+                break;
+            case EQuestionType.SEQRITY:
+                result = 'Вопросы Безопасности'
+                break;
+            case EQuestionType.WORKPLACE:
+                result = 'Вопросы Рабочего Пространства'
+                break;
+        }
+
+        return result;
+    }
+
     render () {
+        
+
         return (
             <div className="questions">
+                <LayoutHeader label={this.getLabel()}/>
                {this.getQuestions()}
+               <div className="col-xs-12 mt-3">
+                    <SimpleButton label="Нет вашего вопроса?" iconClass="fa-comment" btnStyle={EButtonStyle.QUESTION}/>
+                </div>
             </div>
         )
     }
