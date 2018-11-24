@@ -63,7 +63,6 @@ export const Main: React.SFC<IProps> = (props: IProps) => {
                         <Route path='/wp-questions' component={() => <Questions questionType={EQuestionType.WORKPLACE}/>} />
                         <Route path='/cr-questions' component={() => <Questions questionType={EQuestionType.CAREERS}/>} />
                         <Route path='/is-questions' component={() => <Questions questionType={EQuestionType.SEQRITY}/>} />
-                        <Route path='/is-questions' component={() => <Questions questionType={EQuestionType.SEQRITY}/>} />
                     </Switch>
                 </Col>
             </Row>
