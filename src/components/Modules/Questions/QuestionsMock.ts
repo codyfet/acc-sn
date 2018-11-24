@@ -74,4 +74,7 @@ export const questionsMock: IQuestion[] = [
     `},
     {type: EQuestionType.WORKPLACE, label: 'Как пользоваться бейджиками?', answer: 'Никак'},
     {type: EQuestionType.CAREERS, label: 'Зачем нужен Карьерный Наставник?', answer: 'Ответ на вопрос'},
+    {type: EQuestionType.SEQRITY, label: 'Потеряли рабочий ноутбук?', answer: 'Ответ на вопрос'},
+    {type: EQuestionType.SEQRITY, label: 'Взломали ваш Enterprise Id?', answer: 'Ответ на вопрос'},
+    {type: EQuestionType.SEQRITY, label: 'Действия при пожаре', answer: 'Ответ на вопрос'},
 ]

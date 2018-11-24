@@ -12,3 +12,10 @@ export enum EExpandingPanelType {
     SPOILER,
     MENU
 }
+
+export enum EButtonStyle {
+    SUCCESS = 'success',
+    WARNING = 'warning',
+    DANGER = 'danger',
+    QUESTION = 'question'
+}

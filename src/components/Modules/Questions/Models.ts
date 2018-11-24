@@ -2,7 +2,8 @@ export enum EQuestionType {
     HR = 'HR',
     IT = 'IT',
     CAREERS = 'CAREERS',
-    WORKPLACE = 'WORKPLACE'
+    WORKPLACE = 'WORKPLACE',
+    SEQRITY = 'SEQRITY'
 }
 
 export interface IQuestion {

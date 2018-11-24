@@ -134,12 +134,18 @@ export class App extends React.Component<IProps, IState> {
         }, () => this.login(loginData))
     }
 
+    handleLogout = () => {
+        this.setState({
+            loginView: true
+        })
+    }
+
     render () {
         if (!this.state.loginView) {
             return (
                 <React.Fragment>
                     <Header />
-                    <Main />
+                    <Main onLogout={this.handleLogout}/>
                 </React.Fragment>
             );
         }
@@ -150,6 +156,8 @@ export class App extends React.Component<IProps, IState> {
                 {this.state.loginViewError && <span>Неправильный логин или пароль!</span>}
             </React.Fragment>
         );
+
+        return <Login onEnterClick={this.handleEnterClick}/>;
     }    
 
 }
