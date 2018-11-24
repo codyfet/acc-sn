@@ -40,6 +40,7 @@
     "@types/react-bootstrap": "^0.32.14",
     "@types/react-dom": "^16.0.10",
     "@types/react-router-dom": "^4.3.1",
+    "@types/react-select": "^2.0.8",
     "@types/react-text-mask": "^5.4.2",
     "@types/react-textarea-autosize": "^4.3.3",
     "classnames": "^2.2.6",
@@ -51,6 +52,7 @@
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.3.1",
     "react-router-dom": "^4.3.1",
+    "react-select": "^2.1.2",
     "react-text-mask": "^5.4.3",
     "react-textarea-autosize": "^7.1.0-1"
   }
