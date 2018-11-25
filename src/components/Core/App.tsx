@@ -6,7 +6,7 @@ const Chatkit = require('@pusher/chatkit');
 
 import {Login} from '../Modules/Login/Login';
 import {LoginData, User} from '../../models/Common';
-import {login} from '../../services/services';
+import {login, getUsers} from '../../services/services';
 import {Spinner} from './Spinner';
 
 interface IProps {
@@ -23,6 +23,7 @@ interface IProps {
 interface IState {
     chatkitUser: object;
     user: User;
+    users: any;
     loginView: boolean;
     loginViewError: boolean;
     loginData: LoginData;
@@ -37,6 +38,7 @@ export class App extends React.Component<IProps, IState> {
         this.state = {
             chatkitUser: null,
             user: null,
+            users: null,
             loginView: true,
             loginViewError: false,
             loginData: null,
@@ -58,28 +60,27 @@ export class App extends React.Component<IProps, IState> {
                 this.setState({
                     chatkitUser: currentUser
                 });
-
-
-
             })
             .catch((error: any) => {
                 if (error.statusCode === 404) {
                     alert('Такого пользователя не существует');
                 }
+                this.setState({
+                    isLoading: false
+                })
             })
     }
 
+    loadData = (loginData: LoginData) => {
+        this.setState({isLoading: true});
 
-    login (loginData: LoginData) {
-        // Логинимся в нашу систему.
-        this.setState({isLoading: true})
-        login(loginData).then(
+        const p1 = getUsers();
+        const p2 = login(loginData).then(
             (response: any) => {
                 if (!!response.data.user) {
                     this.setState({
                         loginView: false,
-                        user: response.data.user,
-                        isLoading: false
+                        user: response.data.user
                     }, () => this.connectToChat());                   
 
                 } else {
@@ -98,12 +99,26 @@ export class App extends React.Component<IProps, IState> {
                 });
             }
         );
+
+        Promise.all([p1, p2]).then(
+            (response: any) => { 
+                this.setState({
+                    isLoading: false,
+                    users: response.data
+                })
+            },
+            () => {
+                this.setState({
+                    isLoading: false
+                })
+            }
+        );
     }
 
     handleEnterClick = (loginData: LoginData) => {
         this.setState({
             loginData
-        }, () => this.login(loginData))
+        }, () => this.loadData(loginData))
     }
 
     handleLogout = () => {
@@ -113,7 +128,9 @@ export class App extends React.Component<IProps, IState> {
     }
 
     render () {
-        if (!this.state.loginView) {
+        if (this.state.isLoading) {
+            return <Spinner/>;
+        } else if (!this.state.loginView) {
             return (
                 <React.Fragment>
                     <Header />
@@ -124,16 +141,14 @@ export class App extends React.Component<IProps, IState> {
                     />
                 </React.Fragment>
             );
+        } else {
+            return (
+                <React.Fragment>                      
+                    <Login onEnterClick={this.handleEnterClick} />
+                    {this.state.loginViewError && <span>Неправильный логин или пароль!</span>}
+                </React.Fragment>
+            );
         }
-
-        return (
-            <React.Fragment>
-               {this.state.isLoading && <Spinner/>}
-                
-                <Login onEnterClick={this.handleEnterClick} />
-                {this.state.loginViewError && <span>Неправильный логин или пароль!</span>}
-            </React.Fragment>
-        );
 
         return <Login onEnterClick={this.handleEnterClick}/>;
     }
