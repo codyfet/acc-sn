@@ -62,7 +62,7 @@ export class Login extends React.Component<IProps, IState> {
                     />
                     <Input
                         value={loginData.password}
-                        placeholder="Имя Пароль"
+                        placeholder="Пароль"
                         onChange={this.handlePasswordChange}
                         type="password"
                     />

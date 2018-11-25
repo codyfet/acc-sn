@@ -22,7 +22,7 @@ export class MessageList extends React.Component<IProps, IState> {
     }
 
     componentDidMount () {
-        const index: string = window.location.pathname.split('/')[2];
+        const index: string = window.location.pathname.split('/')[2] || '0';
         const room = this.props.chatkitUser.rooms[parseInt(index)];
 
         this.props.chatkitUser.subscribeToRoom({
