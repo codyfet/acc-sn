@@ -2,6 +2,7 @@ import * as React from 'react';
 import {FormGroup} from '../../Core/FormGroup';
 import {LayoutHeader} from '../Header/LayoutHeader';
 import {User} from '../../../models/Common';
+import {SimpleButton} from '../../../Components/Core/SimpleButton';
 // import {MessageList} from '../MessageList/MessageList';
 
 interface IProps {
@@ -17,7 +18,7 @@ interface IState {
 const today = '25.11.2018';
 export class Profile extends React.Component<IProps, IState> {
 
-    componentDidMount () {
+    uploadAttachment = () => {
 
     }
 
@@ -52,9 +53,8 @@ export class Profile extends React.Component<IProps, IState> {
                             </FormGroup>
                             <FormGroup
                                 label="Achievements"
-                                className="text-left"
                                 classNameElement="text-right col-xs-12"
-                                classNameLabel="col-xs-12"
+                                classNameLabel="text-left col-xs-12"
                             >
                                 <img className="achievement-image mt-1" src="https://peoplebeta.accenture.com/flairimages/73a60c9e-4285-482d-91a8-be6ccbee646c.gif"/>
                                 <img className="achievement-image mt-1" src="https://peoplebeta.accenture.com/flairimages/0912f9da-63d6-4433-bd77-cc30b3465371.gif"/>
@@ -62,7 +62,9 @@ export class Profile extends React.Component<IProps, IState> {
                                 <img className="achievement-image mt-1" src="https://peoplebeta.accenture.com/flairimages/90cd28a7-662a-43d0-b9b2-76677f1d2232.gif"/>
                                 <img className="achievement-image mt-1" src="https://people.accenture.com/FlairImages/2423.gif"/>
                             </FormGroup>
-                            
+                        </div>
+                        <div className="col-xs-12 text-left">
+                            <SimpleButton onClick={this.uploadAttachment} iconClass="fa-cloud-upload" label='Изменить аватар' className="upload-avatar mt-2"/>
                         </div>
                     </div>
                     <div className="col-xs-12 layout-panel pt-7 pb-7">
