@@ -9,13 +9,14 @@ interface IProps {
     iconClass?: string;
     className?: string;
     onClick?: () => void;
+    isExtLink?: boolean;
 }
 
 /**
  * Компонент отображает ячейку меню.
  */
 export const MenuLabel: React.SFC<IProps> = (props: IProps) => {
-    const {name, route, iconClass, className, onClick} = props;
+    const {name, route, iconClass, className, onClick, isExtLink} = props;
 
     const handleClick = () => {
         if (isFunction(onClick)) {
@@ -33,7 +34,14 @@ export const MenuLabel: React.SFC<IProps> = (props: IProps) => {
     }
 
     return route ? (
-        <ul className={classNames('menu-label', className)}><Link to={`/${route}`}>{getIcon()}{name}</Link></ul>
+        <ul className={classNames('menu-label', className)}>
+            {isExtLink ? (
+                <a href={route}>{getIcon()}{name}</a>
+            ) : (
+                <Link to={`/${route}`}>{getIcon()}{name}</Link>
+            )}
+        
+        </ul>
     ) : (
         <ul className={classNames('menu-label', className)} onClick={handleClick}>
             {!!iconClass && <i className={classNames('fa', iconClass, 'mr-2')} />}

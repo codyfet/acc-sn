@@ -7,6 +7,7 @@ const Chatkit = require('@pusher/chatkit');
 import {Login} from '../Modules/Login/Login';
 import {LoginData, User} from '../../models/Common';
 import {login} from '../../services/services';
+import {Spinner} from './Spinner';
 
 interface IProps {
 
@@ -71,22 +72,30 @@ export class App extends React.Component<IProps, IState> {
 
     login (loginData: LoginData) {
         // Логинимся в нашу систему.
+        this.setState({isLoading: true})
         login(loginData).then(
             (response: any) => {
                 if (!!response.data.user) {
                     this.setState({
                         loginView: false,
-                        user: response.data.user
+                        user: response.data.user,
+                        isLoading: false
                     }, () => this.connectToChat());                   
+
                 } else {
                     this.setState({
-                        loginViewError: true
+                        loginViewError: true,
+                        isLoading: false
                     });
                 }
             },
             (error: any) => {
                 console.log('login error');
                 console.log(error);
+                this.setState({
+                    loginViewError: true,
+                    isLoading: false
+                });
             }
         );
     }
@@ -119,6 +128,8 @@ export class App extends React.Component<IProps, IState> {
 
         return (
             <React.Fragment>
+               {this.state.isLoading && <Spinner/>}
+                
                 <Login onEnterClick={this.handleEnterClick} />
                 {this.state.loginViewError && <span>Неправильный логин или пароль!</span>}
             </React.Fragment>
