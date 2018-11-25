@@ -2,8 +2,10 @@ import { LoginData } from "../models/Common";
 
 const axios = require('axios');
 
-axios.defaults.baseURL = 'http://10.124.0.7:3000';
-// axios.defaults.baseURL = 'https://acc-delight.herokuapp.com';
+export const baseURL = 'http://10.124.0.7:3000';
+//export const baseURL = 'https://acc-delight.herokuapp.com';
+
+axios.defaults.baseURL = baseURL;
 
 /**
  * Функция логин.

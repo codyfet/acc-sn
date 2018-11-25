@@ -54,6 +54,7 @@ export class Login extends React.Component<IProps, IState> {
         return (
             <form className="login-form">
                 <FormGroup>
+                    <span className="text-4">Добро пожаловать в ATC Info Network!</span>
                     <Input
                         value={loginData.username}
                         placeholder="Имя пользователя"
@@ -61,8 +62,9 @@ export class Login extends React.Component<IProps, IState> {
                     />
                     <Input
                         value={loginData.password}
-                        placeholder="Имя Пароль"
+                        placeholder="Пароль"
                         onChange={this.handlePasswordChange}
+                        type="password"
                     />
                     <SimpleButton onClick={this.handleEnterClick} label="Вход" iconClass="fa-sign-in"/>
                 </FormGroup>
