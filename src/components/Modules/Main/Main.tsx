@@ -23,9 +23,6 @@ interface IProps {
 export const Main: React.SFC<IProps> = (props: IProps) => {
     const {onLogout} = props;
 
-    console.log('-->props');
-    console.log(props);
-
     const questionsElement = (
         <ExpandingPanel
             collapsed
