@@ -16,13 +16,13 @@ interface IState {
 
 const today = '25.11.2018';
 export class Profile extends React.Component<IProps, IState> {
-
-    componentDidMount () {
-
-    }
-
     render () {
-        return (
+        const enterprisedId: string = window.location.pathname.split('/')[2] || null;
+        const user: User = this.props.users.find(
+            (item: User) => item.enterpriseId === enterprisedId
+        );
+
+         return (
             <div className="row profile">
                 <div className="col-xs-12">
                     <div className="col-xs-12 layout-panel pt-7 pb-7 mb-3">
@@ -31,7 +31,7 @@ export class Profile extends React.Component<IProps, IState> {
                         </div>
                         <div className="col-xs-8">
                             <FormGroup
-                                label={`${this.props.user.name} ${this.props.user.surname}`}
+                                label={`${!!user ? user.name : this.props.user.name} ${!!user ? user.surname : this.props.user.surname}`}
                                 className="text-left text-5"
                                 classNameElement="text-right col-xs-2"
                                 classNameLabel="col-xs-10"
