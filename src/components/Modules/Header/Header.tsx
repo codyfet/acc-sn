@@ -1,49 +1,74 @@
 import * as React from 'react';
-import {Navbar, FormGroup, Button} from 'react-bootstrap';
-import {Input} from '../../Core/Input';
+import {Navbar, FormGroup} from 'react-bootstrap';
+import {Typeahead} from 'react-bootstrap-typeahead';
+import {User} from '../../../models/Common';
+import {Redirect} from 'react-router-dom';
+
+interface IProps {
+    users: any;
+}
 
 interface IState {
-    searchText: string;
+    goToUserProfile: boolean;
+    enterpriseId: string;
 }
+
 /**
  * Компонент хедер приложения.
  */
-export class Header extends React.Component<{}, IState> {
-
-    constructor (props: any) {
-        super (props);
+export class Header extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
+        super(props);
 
         this.state = {
-            searchText: ''
+            goToUserProfile: false,
+            enterpriseId: null
         }
     }
 
-    handleChangeSearch = (searchText: string) => {
-        this.setState({searchText});
+    handleChangeSearch = (selectedValue: string[]) => {
+        this.setState({
+            goToUserProfile: true,
+            enterpriseId: selectedValue[0]
+        })
     }
 
     render () {
-        const {searchText} = this.state;
+        let options: string[] = [];
+
+        if (!!this.props.users) {
+            options = this.props.users.map(
+                (user: User) => user.enterpriseId
+            )
+        }
 
         return (
-            <Navbar inverse collapseOnSelect>
-                <Navbar.Header>
-                    <Navbar.Brand>
-                        <a href="https://portal.accenture.com/">
-                            <img className="accenture-logo" src="https://www.accenture.com/t20180820T080653Z__w__/ru-ru/_acnmedia/Accenture/Dev/Redesign/Acc_Logo_Black_Purple_RGB.PNG"/>
-                        </a>
-                    </Navbar.Brand>
-                    <Navbar.Toggle />
-                </Navbar.Header>
-                <Navbar.Collapse>
-                    <Navbar.Form pullRight>
-                        <FormGroup>
-                            <Input value={searchText} onChange={this.handleChangeSearch}  placeholder="Поиск людей, интересов"/>
-                        </FormGroup>{' '}
-                        <Button type="submit">Поиск</Button>
-                    </Navbar.Form>
-                </Navbar.Collapse>
-            </Navbar>            
+            <React.Fragment>
+                <Navbar inverse collapseOnSelect>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <a href="https://portal.accenture.com/">
+                                <img className="accenture-logo" src="https://www.accenture.com/t20180820T080653Z__w__/ru-ru/_acnmedia/Accenture/Dev/Redesign/Acc_Logo_Black_Purple_RGB.PNG"/>
+                            </a>
+                        </Navbar.Brand>
+                        <Navbar.Toggle />
+                    </Navbar.Header>
+                    <Navbar.Collapse>
+                        <Navbar.Form pullRight>
+                            <FormGroup>
+                                <Typeahead
+                                    labelKey="name"
+                                    multiple={false}
+                                    options={options}
+                                    placeholder="Найти сотрудника"
+                                    onChange={this.handleChangeSearch}
+                                />
+                            </FormGroup>{' '}
+                        </Navbar.Form>
+                    </Navbar.Collapse>
+                </Navbar>
+                {this.state.goToUserProfile && <Redirect to={`/profile/${this.state.enterpriseId}`} />}
+            </React.Fragment>
         );
     }
 }

@@ -74,7 +74,13 @@ export class App extends React.Component<IProps, IState> {
     loadData = (loginData: LoginData) => {
         this.setState({isLoading: true});
 
-        const p1 = getUsers();
+        const p1 = getUsers().then(
+            (response: any) => {
+                this.setState({
+                    users: response.data.data
+                })
+            }
+        );
         const p2 = login(loginData).then(
             (response: any) => {
                 if (!!response.data.user) {
@@ -101,10 +107,9 @@ export class App extends React.Component<IProps, IState> {
         );
 
         Promise.all([p1, p2]).then(
-            (response: any) => { 
+            () => { 
                 this.setState({
-                    isLoading: false,
-                    users: response.data
+                    isLoading: false
                 })
             },
             () => {
@@ -133,11 +138,14 @@ export class App extends React.Component<IProps, IState> {
         } else if (!this.state.loginView) {
             return (
                 <React.Fragment>
-                    <Header />
+                    <Header
+                        users={this.state.users}
+                    />
                     <Main 
                         onLogout={this.handleLogout}
                         chatkitUser={this.state.chatkitUser} 
                         user={this.state.user} 
+                        users={this.state.users}
                     />
                 </React.Fragment>
             );

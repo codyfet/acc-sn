@@ -13,11 +13,13 @@ import {ExpandingPanel} from '../../Core/ExpandingPanel';
 import {EExpandingPanelType} from '../../Core/Enums';
 import {MenuLabel} from './MenuLabel';
 import {EQuestionType} from '../Questions/Models';
+import {User} from '../../../models/Common';
 
 interface IProps {
     onLogout: () => void;
     chatkitUser: any;
     user: any;
+    users: User[];
 }
 
 export const Main: React.SFC<IProps> = (props: IProps) => {
@@ -78,7 +80,7 @@ export const Main: React.SFC<IProps> = (props: IProps) => {
                 <Col xs={9}>
                     <Switch>
                         <Route exact path='/' component={Home} />
-                        <Route path='/profile' component={() => <Profile user={props.user} />} />
+                        <Route path='/profile' component={() => <Profile user={props.user} users={props.users} />} />
                         <Route path='/conversations/:roomId' component={() => <MessageList chatkitUser={props.chatkitUser} />} />
                         <Route path='/conversations/' component={() => <Conversations chatkitUser={props.chatkitUser} />} />
                         <Route path='/groups' component={Groups} />

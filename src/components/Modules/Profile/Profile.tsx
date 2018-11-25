@@ -5,6 +5,7 @@ import {User} from '../../../models/Common';
 
 interface IProps {
     user: User;
+    users: User[];
 }
 
 export const Profile = (props: IProps) => {
