@@ -1,9 +1,13 @@
 import * as React from 'react';
 import {FormGroup} from '../../Core/FormGroup';
 import {LayoutHeader} from '../Header/LayoutHeader';
+import {User} from '../../../models/Common';
 
+interface IProps {
+    user: User;
+}
 
-export const Profile = () => {
+export const Profile = (props: IProps) => {
     return (
         <div className="row profile">
             <div className="col-xs-12">
@@ -12,7 +16,7 @@ export const Profile = () => {
                         <img className="user-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf00ByiPUMeiPAfU6BMmbutoOswG-3LPfEYR8BqJfrQF3s5rcz"/>
                     </div>
                     <div className="col-xs-8">
-                        <FormGroup label="ФИО" className="text-left text-5"/>
+                        <FormGroup label={`${props.user.name} ${props.user.surname}`} className="text-left text-5"/>
                         <FormGroup label="Разработчик" className="text-left"/>
                     </div>
                 </div>

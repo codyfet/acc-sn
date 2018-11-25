@@ -18,7 +18,6 @@ interface IProps {
  * @prop {boolean} loginViewError Признак ошибки выполнения запроса на логин в нашу систему.
  * @prop {LoginData} loginData Данные с формы логина.
  * @prop {boolean} isLoading Признак загрузки.
- * @prop {Array} rooms Комнаты пользователя.
  */
 interface IState {
     chatkitUser: object;
@@ -27,7 +26,6 @@ interface IState {
     loginViewError: boolean;
     loginData: LoginData;
     isLoading: boolean;
-    rooms: Array<number>;
 }
 
 export class App extends React.Component<IProps, IState> {
@@ -41,8 +39,7 @@ export class App extends React.Component<IProps, IState> {
             loginView: true,
             loginViewError: false,
             loginData: null,
-            isLoading: false,
-            rooms: [19385475]
+            isLoading: false
         }
     }
 
@@ -79,10 +76,8 @@ export class App extends React.Component<IProps, IState> {
                 if (!!response.data.user) {
                     this.setState({
                         loginView: false,
-                        user: response.user
-                    });
-                    // Коннектимся к chatkit ui.
-                    this.connectToChat();
+                        user: response.data.user
+                    }, () => this.connectToChat());                   
                 } else {
                     this.setState({
                         loginViewError: true
@@ -116,6 +111,7 @@ export class App extends React.Component<IProps, IState> {
                     <Main 
                         onLogout={this.handleLogout}
                         chatkitUser={this.state.chatkitUser} 
+                        user={this.state.user} 
                     />
                 </React.Fragment>
             );
