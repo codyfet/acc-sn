@@ -7,13 +7,16 @@ import {questionsMock} from './QuestionsMock';
 import {SimpleButton} from '../../Core/SimpleButton';
 import {LayoutHeader} from '../Header/LayoutHeader';
 import {CreateServiceRoomModal} from '../Conversations/CreateServiceRoomModal';
+import {getQuestions} from './QuestionsService';
+import {Spinner} from '../../../Components/Core/Spinner';
 
 interface IProps {
     questionType: EQuestionType;
 }
 
 interface IState {
-    isCreateServiceRoomModalShow: boolean
+    isCreateServiceRoomModalShow: boolean;
+    isLoading: boolean;
 }
 
 /**
@@ -25,8 +28,18 @@ export class Questions extends React.PureComponent<IProps, IState> {
         super (props);
 
         this.state = {
-            isCreateServiceRoomModalShow: false
+            isCreateServiceRoomModalShow: false,
+            isLoading: false
         }
+    }
+
+    handleLoading = (isLoading: boolean) => () => {
+        this.setState({isLoading});
+    }
+
+    componentDidMount () {
+        this.handleLoading(true);
+        getQuestions(this.handleLoading(false), this.handleLoading(false));
     }
 
     handleCreateModalShown = (isShow: boolean) => () => {
@@ -87,7 +100,7 @@ export class Questions extends React.PureComponent<IProps, IState> {
 
     render () {
         const {questionType} = this.props;
-        const {isCreateServiceRoomModalShow} = this.state;
+        const {isCreateServiceRoomModalShow, isLoading} = this.state;
 
         return (
             <div className="questions">
@@ -106,6 +119,8 @@ export class Questions extends React.PureComponent<IProps, IState> {
                         onSubmit={this.handleCreateServiceRoom}
                     />
                 }
+
+                {isLoading && <Spinner/>}
             </div>
         )
     }
