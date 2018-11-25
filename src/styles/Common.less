@@ -5,3 +5,31 @@ body {
     color: @base-text-color;
     background-color: @base-background-color !important;
 }
+
+.label-required {
+    &::after {
+        content: "*";
+        margin-left: @base/2;
+        color: @base-danger-color;
+    }
+}
+
+textarea {
+    &.form-control {
+        resize: vertical;
+        min-height: @base*27;
+    }
+}
+
+.navbar {
+    background-color: @base-second-theme-color;
+    border-color: @base-second-theme-color;
+
+    .navbar-brand {
+        padding-top: @base*2;
+
+        .accenture-logo {
+            height: @base*8;
+        }
+    }
+}

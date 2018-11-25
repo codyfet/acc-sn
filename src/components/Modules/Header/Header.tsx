@@ -10,7 +10,9 @@ export class Header extends React.Component {
             <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="#brand">React-Bootstrap</a>
+                        <a href="https://portal.accenture.com/">
+                            <img className="accenture-logo" src="https://www.accenture.com/t20180820T080653Z__w__/ru-ru/_acnmedia/Accenture/Dev/Redesign/Acc_Logo_Black_Purple_RGB.PNG"/>
+                        </a>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>

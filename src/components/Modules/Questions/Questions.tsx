@@ -6,15 +6,36 @@ import {EExpandingPanelType, EButtonStyle} from '../../Core/Enums';
 import {questionsMock} from './QuestionsMock';
 import {SimpleButton} from '../../Core/SimpleButton';
 import {LayoutHeader} from '../Header/LayoutHeader';
+import {CreateServiceRoomModal} from '../Conversations/CreateServiceRoomModal';
 
 interface IProps {
     questionType: EQuestionType;
 }
 
+interface IState {
+    isCreateServiceRoomModalShow: boolean
+}
+
 /**
  * Отображает вопросы по выбранному типу.
  */
-export class Questions extends React.PureComponent<IProps> {
+export class Questions extends React.PureComponent<IProps, IState> {
+
+    constructor (props: IProps) {
+        super (props);
+
+        this.state = {
+            isCreateServiceRoomModalShow: false
+        }
+    }
+
+    handleCreateModalShown = (isShow: boolean) => () => {
+        this.setState({isCreateServiceRoomModalShow: isShow});
+    }
+
+    handleCreateServiceRoom = (_request: any) => {
+        this.setState({isCreateServiceRoomModalShow: false});
+    }
 
     getQuestions = () => {
         const {questionType} = this.props;
@@ -32,7 +53,7 @@ export class Questions extends React.PureComponent<IProps> {
                 >
                    {map(question.answer.split('\n'), (text: string) => {return <div className="text-block">{text}</div>})}
                     <div className="col-xs-12">
-                        <SimpleButton label="Остались вопросы?" iconClass="fa-comment" btnStyle={EButtonStyle.QUESTION}/>
+                        <SimpleButton label="Остались вопросы?" iconClass="fa-comment" btnStyle={EButtonStyle.QUESTION} onClick={this.handleCreateModalShown(true)}/>
                     </div>
                 </ExpandingPanel>
             )
@@ -65,15 +86,26 @@ export class Questions extends React.PureComponent<IProps> {
     }
 
     render () {
-        
+        const {questionType} = this.props;
+        const {isCreateServiceRoomModalShow} = this.state;
 
         return (
             <div className="questions">
                 <LayoutHeader label={this.getLabel()}/>
-               {this.getQuestions()}
-               <div className="col-xs-12 mt-3">
-                    <SimpleButton label="Нет вашего вопроса?" iconClass="fa-comment" btnStyle={EButtonStyle.QUESTION}/>
+
+                {this.getQuestions()}
+
+                <div className="col-xs-12 mt-3">
+                    <SimpleButton label="Нет вашего вопроса?" iconClass="fa-comment" btnStyle={EButtonStyle.QUESTION} onClick={this.handleCreateModalShown(true)}/>
                 </div>
+
+                {isCreateServiceRoomModalShow &&
+                    <CreateServiceRoomModal
+                        questionType={questionType}
+                        onClose={this.handleCreateModalShown(false)}
+                        onSubmit={this.handleCreateServiceRoom}
+                    />
+                }
             </div>
         )
     }
