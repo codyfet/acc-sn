@@ -1,14 +1,16 @@
 import * as React from 'react';
 import {ListGroup, ListGroupItem} from 'react-bootstrap';
 import {Redirect} from 'react-router-dom';
+import {CreateCustomRoomModal} from './CreateCustomRoomModal';
 
 interface IProps {
-    rooms: Array<any>;
+    chatkitUser: any;
 }
 
 interface IState {
     toMessageList: boolean;
-    clickedIndex: number
+    clickedIndex: number;
+    showAddRoomModal: boolean;
 }
 
 /**
@@ -20,17 +22,45 @@ export class Conversations extends React.Component<IProps, IState> {
 
         this.state = {
             toMessageList: false,
-            clickedIndex: null
+            clickedIndex: null,
+            showAddRoomModal: false
         }
     }
 
     handleListItemClick = (event: any) => {
-        console.log(event);
-
         this.setState({
             toMessageList: true,
             clickedIndex: parseInt(event.currentTarget.id)
         })
+    }
+
+    handleAddClick = () => {
+        this.setState({
+            showAddRoomModal: true
+        })
+    }
+
+    handleAddModalClose = () => {
+        this.setState({
+            showAddRoomModal: false
+        })
+    }
+
+    handleSave = (roomData: any) => {
+        const {chatkitUser} = this.props;
+        const {info, theme, selectedUsersIds, isPrivate} = roomData;
+
+        chatkitUser.createRoom({
+            name: theme,
+            private: !!isPrivate,
+            addUserIds: selectedUsersIds,
+            customData: {info}
+          }).then((room: any) => {
+                console.log(`Created room called ${room.name}`)
+          })
+          .catch((err: any) => {
+                console.log(`Error creating room ${err}`)
+          })        
     }
 
     render () {
@@ -40,29 +70,48 @@ export class Conversations extends React.Component<IProps, IState> {
             );
         }
 
-        if (!this.props.rooms) {
+        if (!this.props.chatkitUser.rooms) {
             return null;
         }
 
         return (
-            <ListGroup>
+            <React.Fragment>
+                <p>
+                    <a 
+                        onClick={this.handleAddClick} 
+                        className="add-room-btn"
+                    >
+                        Добавить
+                    </a>
+                </p>
+                <ListGroup>
+                    {
+                        this.props.chatkitUser.rooms.map(
+                            (item: any, index: number) => {
+                                return (
+                                    <ListGroupItem 
+                                        key={item.createdAt}
+                                        id={index.toString()}
+                                        onClick={this.handleListItemClick}
+                                        className="conversation"
+                                    >
+                                        {item.userIds.join(', ')}
+                                    </ListGroupItem>
+                                );
+                            }
+                        )
+                    }
+                </ListGroup>
                 {
-                    this.props.rooms.map(
-                        (item, index) => {
-                            return (
-                                <ListGroupItem 
-                                    key={item.createdAt}
-                                    id={index.toString()}
-                                    onClick={this.handleListItemClick}
-                                    className="conversation"
-                                >
-                                    {item.userIds.join(', ')}
-                                </ListGroupItem>
-                            );
-                        }
+                    this.state.showAddRoomModal && (
+                        <CreateCustomRoomModal
+                            onClose={this.handleAddModalClose}
+                            onSubmit={this.handleSave}
+                            chatkitUser={this.props.chatkitUser}
+                        />
                     )
                 }
-            </ListGroup>
+            </React.Fragment>
         );
     }
 }

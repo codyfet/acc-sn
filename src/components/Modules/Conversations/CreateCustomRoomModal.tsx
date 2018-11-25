@@ -15,12 +15,13 @@ import {Checkbox} from '../..//Core/CheckBox';
 interface IProps {
     onClose: () => void;
     onSubmit: (request: any) => void;
+    chatkitUser: any;
 }
 
 interface IState {
     info?: string;
     theme?: string;
-    selectedUsersIds?: number[];
+    selectedUsersIds?: string[];
     isPrivate?: boolean;
 }
 /**
@@ -48,21 +49,21 @@ export class CreateCustomRoomModal extends React.PureComponent<IProps, IState> {
         this.setState({[field]: value});
     }
 
-    getUsersOptions = (): IOption<number>[] => {
+    getUsersOptions = (): IOption<string>[] => {
         return map(usersMock, (user: User) => {
             return {
                 label: `${user.surname} ${user.name}`,
-                value: user.id,
+                value: user.enterpriseId,
                 title: `${user.surname} ${user.name}`
             }
         })
     }
 
-    handleUsersChange = (usersOptions: IOption<number>[]) => {
+    handleUsersChange = (usersOptions: IOption<string>[]) => {
         if (isEmpty(usersOptions)) {
             this.setState({selectedUsersIds: null});
         } else {
-            this.setState({selectedUsersIds: map(usersOptions, (userOption: IOption<number>) => {return userOption.value})});
+            this.setState({selectedUsersIds: map(usersOptions, (userOption: IOption<string>) => {return userOption.value})});
         }
     }
 
@@ -104,7 +105,18 @@ export class CreateCustomRoomModal extends React.PureComponent<IProps, IState> {
     }
 
     handleSubmit = () => {
-        this.props.onSubmit(null);
+        const {chatkitUser} = this.props;
+        const {info, theme, selectedUsersIds, isPrivate} = this.state;
+
+        console.log('chatkitUser');
+        console.log(chatkitUser);
+
+        this.props.onSubmit({
+            info,
+            theme,
+            selectedUsersIds: [...selectedUsersIds, chatkitUser.id], // Добавляем себя, это обязательно.
+            isPrivate
+        });
     }
 
      /**
@@ -116,7 +128,6 @@ export class CreateCustomRoomModal extends React.PureComponent<IProps, IState> {
         return (
             <React.Fragment>
                 <SimpleButton label="Создать" onClick={this.handleSubmit} iconClass="fa-check"/>
-
                 <SimpleButton label="Отмена" btnStyle={EButtonStyle.WARNING} onClick={onClose} iconClass="fa-ban"/>
             </React.Fragment>
         )
@@ -129,7 +140,7 @@ export class CreateCustomRoomModal extends React.PureComponent<IProps, IState> {
             <ModalWindow
                 show
                 dialogClassName="modal-200"
-                header={`Создание чата`}
+                header="Создание чата"
                 body={this.renderModalBody()}
                 footer={this.renderModalFooter()}
                 onClose={onClose}

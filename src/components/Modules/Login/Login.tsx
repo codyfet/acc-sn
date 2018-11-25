@@ -54,7 +54,7 @@ export class Login extends React.Component<IProps, IState> {
         return (
             <form className="login-form">
                 <FormGroup>
-                    <span className="text-4">Добро пожаловать в ATC Information Network!</span>
+                    <span className="text-4">Добро пожаловать в ATC Info Network!</span>
                     <Input
                         value={loginData.username}
                         placeholder="Имя пользователя"
