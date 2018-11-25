@@ -7,7 +7,7 @@ export enum EQuestionType {
 }
 
 export interface IQuestion {
-    type: EQuestionType;
-    label: string;
-    answer: string;
+    type?: EQuestionType;
+    label?: string;
+    answer?: string;
 }

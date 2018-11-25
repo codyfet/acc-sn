@@ -63,7 +63,7 @@ export const Main: React.SFC<IProps> = (props: IProps) => {
     return (
         <Grid className="main">
             <Row className="show-grid">
-                <Col xs={3}>
+                <Col xs={4}>
                     <MenuLabel name="Новости" route="news" iconClass="fa-server"/>
                     <MenuLabel name="Профиль" route="profile" iconClass="fa-user-o"/>
                     <MenuLabel name="Переписки" route="conversations" iconClass="fa-envelope-open-o"/>
@@ -75,7 +75,7 @@ export const Main: React.SFC<IProps> = (props: IProps) => {
                         
                     </ul>
                 </Col>
-                <Col xs={9}>
+                <Col xs={8}>
                     <Switch>
                         <Route exact path='/' component={Home} />
                         <Route path='/profile' component={() => <Profile user={props.user} />} />

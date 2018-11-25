@@ -1,22 +1,25 @@
 import * as React from 'react';
 import {EQuestionType, IQuestion} from './Models';
-import {map, filter} from 'lodash';
+import {map, filter, get} from 'lodash';
 import {ExpandingPanel} from '../../Core/ExpandingPanel';
 import {EExpandingPanelType, EButtonStyle} from '../../Core/Enums';
-import {questionsMock} from './QuestionsMock';
 import {SimpleButton} from '../../Core/SimpleButton';
 import {LayoutHeader} from '../Header/LayoutHeader';
 import {CreateServiceRoomModal} from '../Conversations/CreateServiceRoomModal';
-import {getQuestions} from './QuestionsService';
+import {getQuestions, addQuestion} from './QuestionsService';
 import {Spinner} from '../../../Components/Core/Spinner';
+import {AddQuestionModal} from './AddQuestionModal';
 
 interface IProps {
     questionType: EQuestionType;
+    isExpert?: boolean;
 }
 
 interface IState {
     isCreateServiceRoomModalShow: boolean;
+    isCreateQuestionModalShown: boolean;
     isLoading: boolean;
+    questions: IQuestion[];
 }
 
 /**
@@ -29,8 +32,20 @@ export class Questions extends React.PureComponent<IProps, IState> {
 
         this.state = {
             isCreateServiceRoomModalShow: false,
-            isLoading: false
+            isCreateQuestionModalShown: false,
+            isLoading: false,
+            questions: []
         }
+    }
+
+    getQuestions = () => {
+        this.handleLoading(true)();
+        getQuestions((axioData: any) => {
+            this.handleLoading(false)()
+            if (get(axioData, 'data.data')) {
+                this.setState({questions: axioData.data.data, isCreateQuestionModalShown: false});
+            }
+        }, this.handleLoading(false));
     }
 
     handleLoading = (isLoading: boolean) => () => {
@@ -38,22 +53,35 @@ export class Questions extends React.PureComponent<IProps, IState> {
     }
 
     componentDidMount () {
-        this.handleLoading(true);
-        getQuestions(this.handleLoading(false), this.handleLoading(false));
+        this.getQuestions();
+    }
+        
+
+    handleCreateRoomModalShown = (isShow: boolean) => () => {
+        this.setState({isCreateServiceRoomModalShow: isShow});
     }
 
-    handleCreateModalShown = (isShow: boolean) => () => {
-        this.setState({isCreateServiceRoomModalShow: isShow});
+    handleCreateQuestionModalShown = (isShow: boolean) => () => {
+        this.setState({isCreateQuestionModalShown: isShow});
     }
 
     handleCreateServiceRoom = (_request: any) => {
         this.setState({isCreateServiceRoomModalShow: false});
     }
 
-    getQuestions = () => {
-        const {questionType} = this.props;
+    handleCreateQuestion = (request: any) => {
+        this.handleLoading(true)();
+        addQuestion({...request, type: this.props.questionType},
+            () => {
+                this.getQuestions();
+            }, this.handleLoading(false))
+    }
 
-        return map(filter(questionsMock, (question: IQuestion) => {return question.type === questionType}), (question: IQuestion) => {
+    getQuestionsElement = () => {
+        const {questionType} = this.props;
+        const {questions} = this.state;
+
+        return map(filter(questions, (question: IQuestion) => {return question.type === questionType}), (question: IQuestion) => {
             return (
                 <ExpandingPanel
                     collapsed
@@ -66,7 +94,7 @@ export class Questions extends React.PureComponent<IProps, IState> {
                 >
                    {map(question.answer.split('\n'), (text: string) => {return <div className="text-block">{text}</div>})}
                     <div className="col-xs-12">
-                        <SimpleButton label="Остались вопросы?" iconClass="fa-comment" btnStyle={EButtonStyle.QUESTION} onClick={this.handleCreateModalShown(true)}/>
+                        <SimpleButton label="Остались вопросы?" iconClass="fa-comment" btnStyle={EButtonStyle.QUESTION} onClick={this.handleCreateRoomModalShown(true)}/>
                     </div>
                 </ExpandingPanel>
             )
@@ -99,24 +127,40 @@ export class Questions extends React.PureComponent<IProps, IState> {
     }
 
     render () {
-        const {questionType} = this.props;
-        const {isCreateServiceRoomModalShow, isLoading} = this.state;
+        const {questionType, isExpert} = this.props;
+        const {
+            isCreateServiceRoomModalShow,
+            isCreateQuestionModalShown,
+            isLoading
+        } = this.state;
 
         return (
             <div className="questions">
                 <LayoutHeader label={this.getLabel()}/>
 
-                {this.getQuestions()}
+                {this.getQuestionsElement()}
 
                 <div className="col-xs-12 mt-3">
-                    <SimpleButton label="Нет вашего вопроса?" iconClass="fa-comment" btnStyle={EButtonStyle.QUESTION} onClick={this.handleCreateModalShown(true)}/>
+                    {isExpert ? (
+                            <SimpleButton label="Нет вашего вопроса?" iconClass="fa-comment" btnStyle={EButtonStyle.QUESTION} onClick={this.handleCreateRoomModalShown(true)}/>
+                        ) : (
+                            <SimpleButton label="Добавить вопрос" iconClass="fa-comment" btnStyle={EButtonStyle.SUCCESS} onClick={this.handleCreateQuestionModalShown(true)}/>
+                        )
+                    }
                 </div>
 
                 {isCreateServiceRoomModalShow &&
                     <CreateServiceRoomModal
                         questionType={questionType}
-                        onClose={this.handleCreateModalShown(false)}
+                        onClose={this.handleCreateRoomModalShown(false)}
                         onSubmit={this.handleCreateServiceRoom}
+                    />
+                }
+
+                {isCreateQuestionModalShown &&
+                    <AddQuestionModal
+                        onClose={this.handleCreateQuestionModalShown(false)}
+                        onSubmit={this.handleCreateQuestion}
                     />
                 }
 

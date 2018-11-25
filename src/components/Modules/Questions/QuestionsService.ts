@@ -8,7 +8,7 @@ axios.defaults.baseURL = baseURL;
 /**
  * Получить список всех вопросов.
  */
-export function getQuestions (onSuccess: () => void, onError: () => void) {
+export function getQuestions (onSuccess: (result: IQuestion[]) => void, onError: () => void) {
     return axios.get("/questions")
         .then(onSuccess, onError);
 }
