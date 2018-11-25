@@ -63,6 +63,7 @@ export class Login extends React.Component<IProps, IState> {
                         value={loginData.password}
                         placeholder="Имя Пароль"
                         onChange={this.handlePasswordChange}
+                        type="password"
                     />
                     <SimpleButton onClick={this.handleEnterClick} label="Вход" iconClass="fa-sign-in"/>
                 </FormGroup>
