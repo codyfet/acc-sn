@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {FormGroup} from '../../Core/FormGroup';
-import {LayoutHeader} from '../Header/LayoutHeader';
 import {User} from '../../../models/Common';
-// import {MessageList} from '../MessageList/MessageList';
+import {NewsList} from '../NewsList/NewsList';
 
 interface IProps {
     user: User;
@@ -53,8 +52,7 @@ export class Profile extends React.Component<IProps, IState> {
                         </div>
                     </div>
                     <div className="col-xs-12 layout-panel pt-7 pb-7">
-                        <LayoutHeader label="Лента"/>
-                        {/* <MessageList chatkitUser={props.chatkitUser} /> */}
+                        <NewsList chatkitUser={this.props.chatkitUser} />
                     </div>
                 </div>
             </div>
