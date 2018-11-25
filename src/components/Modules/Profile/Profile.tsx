@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {FormGroup} from '../../Core/FormGroup';
-import {LayoutHeader} from '../Header/LayoutHeader';
 import {User} from '../../../models/Common';
 import {SimpleButton} from '../../../Components/Core/SimpleButton';
 import Dropzone from 'react-dropzone';
 import {isFunction} from 'lodash';
 // import {MessageList} from '../MessageList/MessageList';
+import {NewsList} from '../NewsList/NewsList';
 
 interface IProps {
     user: User;
@@ -39,6 +39,11 @@ export class Profile extends React.Component<IProps, IState> {
     }
 
     render () {
+        const enterprisedId: string = window.location.pathname.split('/')[2] || null;
+        const user: User = this.props.users.find(
+            (item: User) => item.enterpriseId === enterprisedId
+        );
+
         return (
             <div className="row profile">
                 <div className="col-xs-12">
@@ -48,7 +53,7 @@ export class Profile extends React.Component<IProps, IState> {
                         </div>
                         <div className="col-xs-8">
                             <FormGroup
-                                label={`${this.props.user.name} ${this.props.user.surname}`}
+                                label={`${!!user ? user.name : this.props.user.name} ${!!user ? user.surname : this.props.user.surname}`}
                                 className="text-left text-5"
                                 classNameElement="text-right col-xs-2"
                                 classNameLabel="col-xs-10"
@@ -89,8 +94,7 @@ export class Profile extends React.Component<IProps, IState> {
                         className="hidden"
                     />
                     <div className="col-xs-12 layout-panel pt-7 pb-7">
-                        <LayoutHeader label="Лента"/>
-                        {/* <MessageList chatkitUser={props.chatkitUser} /> */}
+                        <NewsList chatkitUser={this.props.chatkitUser} />
                     </div>
                 </div>
             </div>

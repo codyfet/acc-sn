@@ -1,12 +1,10 @@
 import * as React from 'react';
 import {Switch, Route} from 'react-router-dom';
 import {Grid, Row, Col} from 'react-bootstrap';
-
 import {Conversations} from '../Conversations/Conversations';
 import {Profile} from '../Profile/Profile';
 import {News} from '../News/News';
 import {Groups} from '../Groups/Groups';
-import {Home} from '../Home/Home';
 import {Questions} from '../Questions/Questions';
 import {MessageList} from '../MessageList/MessageList';
 import {ExpandingPanel} from '../../Core/ExpandingPanel';
@@ -79,8 +77,8 @@ export const Main: React.SFC<IProps> = (props: IProps) => {
                 </Col>
                 <Col xs={8}>
                     <Switch>
-                        <Route exact path='/' component={Home} />
                         <Route path='/profile' component={() => <Profile user={props.user} chatkitUser={props.chatkitUser} users={props.users} />} />
+                        {/* <Route exact path='/' component={() => <Profile user={props.user} chatkitUser={props.chatkitUser} users={props.users} />} /> */}
                         <Route path='/conversations/:roomId' component={() => <MessageList chatkitUser={props.chatkitUser} />} />
                         <Route path='/conversations/' component={() => <Conversations chatkitUser={props.chatkitUser} />} />
                         <Route path='/groups' component={() => <Groups chatkitUser={props.chatkitUser} />} />
