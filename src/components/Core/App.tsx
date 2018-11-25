@@ -61,38 +61,8 @@ export class App extends React.Component<IProps, IState> {
                     chatkitUser: currentUser
                 });
 
-                console.log('currentUser');
-                console.log(currentUser);
 
-                // Подключаемся к комнате.
-                // currentUser.subscribeToRoom({
-                //     roomId: 19385475,
-                //     hooks: {
-                //         // Подписываемся на получение нового сообщения.
-                //         onNewMessage: (message: any) => {
-                //             this.setState({
-                //                 messages: [...this.state.messages, message]
-                //             })
-                //         },
-                //         // Подписываемся на получение статуса, что юзер пишет сообщение.
-                //         onUserStartedTyping: (user) => {
-                //             this.setState({
-                //                 typingUserName: user.name
-                //             });
-                //         },
-                //         // Подписываемся на получение статуса, что юзер прекратил писать сообщение.
-                //         onUserStoppedTyping: (user) => {
-                //             this.setState({
-                //                 typingUserName: null
-                //             });
-                //         }
-                //     },
-                //     messageLimit: 100
-                // })
-                // this.setState({
-                //     currentUser,
-                //     isLoading: false
-                // });
+
             })
             .catch((error: any) => {
                 if (error.statusCode === 404) {
@@ -101,14 +71,6 @@ export class App extends React.Component<IProps, IState> {
             })
     }
 
-    // sendMessage (text) {
-    //     const {currentUser, roomId} = this.state;
-
-    //     currentUser.sendMessage({
-    //         text,
-    //         roomId
-    //     })
-    // }
 
     login (loginData: LoginData) {
         // Логинимся в нашу систему.
@@ -153,7 +115,7 @@ export class App extends React.Component<IProps, IState> {
                     <Header />
                     <Main 
                         onLogout={this.handleLogout}
-                        user={this.state.chatkitUser} 
+                        chatkitUser={this.state.chatkitUser} 
                     />
                 </React.Fragment>
             );

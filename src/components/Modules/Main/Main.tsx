@@ -8,6 +8,7 @@ import {News} from '../News/News';
 import {Groups} from '../Groups/Groups';
 import {Home} from '../Home/Home';
 import {Questions} from '../Questions/Questions';
+import {MessageList} from '../MessageList/MessageList';
 import {ExpandingPanel} from '../../Core/ExpandingPanel';
 import {EExpandingPanelType} from '../../Core/Enums';
 import {MenuLabel} from './MenuLabel';
@@ -15,7 +16,7 @@ import {EQuestionType} from '../Questions/Models';
 
 interface IProps {
     onLogout: () => void;
-    user: any;
+    chatkitUser: any;
 }
 
 export const Main: React.SFC<IProps> = (props: IProps) => {
@@ -77,7 +78,8 @@ export const Main: React.SFC<IProps> = (props: IProps) => {
                     <Switch>
                         <Route exact path='/' component={Home} />
                         <Route path='/profile' component={Profile} />
-                        <Route path='/conversations' component={() => <Conversations rooms={props.user.rooms} />} />
+                        <Route path='/conversations/:roomId' component={() => <MessageList chatkitUser={props.chatkitUser} />} />
+                        <Route path='/conversations/' component={() => <Conversations rooms={props.chatkitUser && props.chatkitUser.rooms} />} />
                         <Route path='/groups' component={Groups} />
                         <Route path='/news' component={News} />
                         <Route path='/it-questions' component={() => <Questions questionType={EQuestionType.IT}/>} />
