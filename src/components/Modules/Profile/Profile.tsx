@@ -3,6 +3,8 @@ import {FormGroup} from '../../Core/FormGroup';
 import {LayoutHeader} from '../Header/LayoutHeader';
 import {User} from '../../../models/Common';
 import {SimpleButton} from '../../../Components/Core/SimpleButton';
+import Dropzone from 'react-dropzone';
+import {isFunction} from 'lodash';
 // import {MessageList} from '../MessageList/MessageList';
 
 interface IProps {
@@ -18,8 +20,22 @@ interface IState {
 const today = '25.11.2018';
 export class Profile extends React.Component<IProps, IState> {
 
-    uploadAttachment = () => {
+    dropzoneRef: any;
 
+    /**
+     * Обработчик открытия стандартного диалогового окна выбора загружаемого файла.
+     */
+    handleOpenSelectFileDialog = () => {
+        this.dropzoneRef.open();
+    }
+
+    /**
+     * Обработчик выбора файла в диалоговом окне.
+     */
+    handleDrop = (acceptedFiles: File[]) => {
+        const {chatkitUser} = this.props;
+
+        isFunction(chatkitUser.uploadDataAttachment) && chatkitUser.uploadDataAttachment(chatkitUser.rooms[0].id, {fiel: acceptedFiles[0], name: acceptedFiles[0].name});
     }
 
     render () {
@@ -64,9 +80,14 @@ export class Profile extends React.Component<IProps, IState> {
                             </FormGroup>
                         </div>
                         <div className="col-xs-12 text-left">
-                            <SimpleButton onClick={this.uploadAttachment} iconClass="fa-cloud-upload" label='Изменить аватар' className="upload-avatar mt-2"/>
+                            <SimpleButton onClick={this.handleOpenSelectFileDialog} iconClass="fa-cloud-upload" label='Изменить аватар' className="upload-avatar mt-2"/>
                         </div>
                     </div>
+                    <Dropzone
+                        ref={(node: any) => {this.dropzoneRef = node}}
+                        onDrop={this.handleDrop}
+                        className="hidden"
+                    />
                     <div className="col-xs-12 layout-panel pt-7 pb-7">
                         <LayoutHeader label="Лента"/>
                         {/* <MessageList chatkitUser={props.chatkitUser} /> */}
