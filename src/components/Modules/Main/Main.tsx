@@ -37,6 +37,27 @@ export const Main: React.SFC<IProps> = (props: IProps) => {
             <MenuLabel name="Careers" route="cr-questions" iconClass="fa-building-o" className="pl-0"/>
         </ExpandingPanel>
     )
+
+    const resourcesElement = (
+        <ExpandingPanel
+            collapsed
+            headerClassName="pb-0"
+            collapsedIconClassName="fa-mixcloud mr-2"
+            expandedIconClassName="fa-mixcloud mr-2"
+            panelType={EExpandingPanelType.MENU}
+            header="Ресурсы"
+        >
+            <MenuLabel name="Заполнение времени" route="https://myte.accenture.com/OGTE/secure/TimesheetPage.aspx#" iconClass="fa-clock-o" className="pl-0 mb-2" isExtLink/>
+            <MenuLabel name="Бронирование переговорных" route="https://email.accenture.com/owa/" iconClass="fa-calendar" className="pl-0 mb-2" isExtLink/>
+            <MenuLabel name="Больничные и отпуска" route="https://ts.accenture.com/sites/MoscowCommunityPortal/VBTRtool/Lists/VacationsandBusinessTrips/btrips.aspx" iconClass="fa-address-card-o" className="pl-0 mb-2" isExtLink/>
+            <MenuLabel name="HR Запросы" route="https://myrequests.accenture.com/" iconClass="fa-newspaper-o" className="pl-0 mb-2" isExtLink/>
+            <MenuLabel name="Достижения" route="https://performance.accenture.com/" iconClass="fa-star-o" className="pl-0 mb-2" isExtLink/>
+            <MenuLabel name="Обучение" route="https://mylearning.accenture.com/myl-ui/" iconClass="fa-pencil-square-o" className="pl-0 mb-2" isExtLink/>
+            <MenuLabel name="Карта офиса" route="https://email.accenture.com/owa/" iconClass="fa-map-o" className="pl-0 mb-2" isExtLink/>
+            <MenuLabel name="Облачное хранилище" route="https://myoffice.accenture.com/_layouts/15/MySite.aspx?MySiteRedirect=AllDocuments" iconClass="fa-mixcloud" className="pl-0" isExtLink/>
+        </ExpandingPanel>
+    )
+
     return (
         <Grid className="main">
             <Row className="show-grid">
@@ -46,7 +67,7 @@ export const Main: React.SFC<IProps> = (props: IProps) => {
                     <MenuLabel name="Переписки" route="conversations" iconClass="fa-envelope-open-o"/>
                     <MenuLabel name="Группы" route="groups" iconClass="fa-comments-o"/>
                     <MenuLabel name={questionsElement}/>
-                    <MenuLabel name="Ресурсы" route="news" iconClass="fa-mixcloud"/>
+                    <MenuLabel name={resourcesElement}/>
                     <MenuLabel name="Выйти" iconClass="fa-sign-out" onClick={onLogout}/>
                     <ul>
                         
