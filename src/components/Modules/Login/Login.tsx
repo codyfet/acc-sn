@@ -27,20 +27,20 @@ export class Login extends React.Component<IProps, IState> {
         }
     }
 
-    handleUsernameChange = (event: any): void => {
+    handleUsernameChange = (value: string): void => {
         this.setState({
             loginData: {
                 ...this.state.loginData,
-                username: event.currentTarget.value
+                username: value
             }
         })
     }
 
-    handlePasswordChange = (event: any): void => {
+    handlePasswordChange = (value: string): void => {
         this.setState({
             loginData: {
                 ...this.state.loginData,
-                password: event.currentTarget.value
+                password: value
             }
         })
     }
