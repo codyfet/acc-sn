@@ -63,7 +63,6 @@ export class MessageList extends React.Component<IProps, IState> {
 
                         return (
                             <div key={message.id} className={`message ${(message.senderId === this.props.chatkitUser.id) ? 'me' : 'not-me'}`}>
-                                <div className="date-string">{date.toLocaleDateString()}</div>
                                 <div className="author-block">{`${message.senderId}, ${date.toLocaleTimeString()}`}</div>
                                 <div className="message-block"><div className="inner">{message.text}</div></div>
                                 {

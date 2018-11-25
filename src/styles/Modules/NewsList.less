@@ -4,9 +4,9 @@
     --send-message-form: #F5F5F5;
 }
 
-.layout-panel:last-child {
-    background: gray;
-}
+// .layout-panel:last-child {
+//     background: gray;
+// }
 
 // html, body {
 //     height: 100%;
@@ -59,9 +59,9 @@
 
         &.not-me {
             text-align: right;
+            margin-right: 12px;
 
             .message-block {
-                background: black;
                 display: inline-block;
             }
         }
@@ -69,6 +69,7 @@
         // Date
         .date-string {
             text-align: center;
+            margin-bottom: 6px;
         }
 
         // Author
@@ -82,13 +83,13 @@
         // Message
         .message-block {   
             border-radius: 8px;
-            background: #F72349;
+            background: #f7f7f7;
             padding: 20px;
             display: inline-block;
             width: auto;
 
             .inner {
-                color: var(--secondary-color);
+                color: black;
                 display: inline;
             }
         }
