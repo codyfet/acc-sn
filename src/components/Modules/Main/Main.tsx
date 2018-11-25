@@ -17,6 +17,7 @@ import {EQuestionType} from '../Questions/Models';
 interface IProps {
     onLogout: () => void;
     chatkitUser: any;
+    user: any;
 }
 
 export const Main: React.SFC<IProps> = (props: IProps) => {
@@ -77,7 +78,7 @@ export const Main: React.SFC<IProps> = (props: IProps) => {
                 <Col xs={9}>
                     <Switch>
                         <Route exact path='/' component={Home} />
-                        <Route path='/profile' component={Profile} />
+                        <Route path='/profile' component={() => <Profile user={props.user} />} />
                         <Route path='/conversations/:roomId' component={() => <MessageList chatkitUser={props.chatkitUser} />} />
                         <Route path='/conversations/' component={() => <Conversations rooms={props.chatkitUser && props.chatkitUser.rooms} />} />
                         <Route path='/groups' component={Groups} />

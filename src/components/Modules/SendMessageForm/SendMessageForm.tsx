@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {FormControl, Button} from 'react-bootstrap';
 
 interface IProps {
     chatkitUser: any;
@@ -44,17 +45,29 @@ export class SendMessageForm extends React.Component<IProps, IState> {
             message: ''
         })
     }
+    handleSendButtonClick (e: any) {
+        this.handleSubmit(e);
+    }
     
     render() {
         return (
             <form
                 onSubmit={this.handleSubmit}
-                className="send-message-form">
-                <input
+                className="send-message-form"
+            >
+                <FormControl
+                    className="message-area"
+                    componentClass="textarea"
                     onChange={this.handleChange}
                     value={this.state.message}
-                    placeholder="Type your message and hit ENTER"
-                    type="text" />
+                    placeholder="Введите текст сообщения"
+                />
+                <Button className="text-btn" onClick={this.handleSendButtonClick}>отправить</Button>
+                {/* {
+                    !!this.props.typingUserName ? 
+                        <span className="typing-indicator">{`${this.props.typingUserName} печатает...`}</span> : 
+                        null
+                } */}
             </form>
         )
     }
