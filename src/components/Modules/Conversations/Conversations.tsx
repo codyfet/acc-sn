@@ -2,6 +2,7 @@ import * as React from 'react';
 import {ListGroup, ListGroupItem} from 'react-bootstrap';
 import {Redirect} from 'react-router-dom';
 import {CreateCustomRoomModal} from './CreateCustomRoomModal';
+import moment = require('moment');
 
 interface IProps {
     chatkitUser: any;
@@ -95,7 +96,18 @@ export class Conversations extends React.Component<IProps, IState> {
                                         onClick={this.handleListItemClick}
                                         className="conversation"
                                     >
-                                        {item.userIds.join(', ')}
+                                    <div className="row">
+                                        <div className="col-xs-1">
+                                            <i className="fa fa-envelope-open-o text-5"/>
+                                        </div>
+                                        <div className="col-xs-9">
+                                            {item.userIds.join(', ')}
+                                        </div>
+                                        <div className="col-xs-2 text-right">
+                                            {moment(item.createdAt).format('DD.MM.YYYY')}
+                                        </div>
+                                    </div>
+                                        
                                     </ListGroupItem>
                                 );
                             }

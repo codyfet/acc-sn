@@ -81,7 +81,7 @@ export const Main: React.SFC<IProps> = (props: IProps) => {
                         <Route path='/profile' component={() => <Profile user={props.user} chatkitUser={props.chatkitUser} />} />
                         <Route path='/conversations/:roomId' component={() => <MessageList chatkitUser={props.chatkitUser} />} />
                         <Route path='/conversations/' component={() => <Conversations chatkitUser={props.chatkitUser} />} />
-                        <Route path='/groups' component={Groups} />
+                        <Route path='/groups' component={() => <Groups chatkitUser={props.chatkitUser} />} />
                         <Route path='/news' component={News} />
                         <Route path='/it-questions' component={() => <Questions questionType={EQuestionType.IT}/>} />
                         <Route path='/hr-questions' component={() => <Questions questionType={EQuestionType.HR}/>} />
