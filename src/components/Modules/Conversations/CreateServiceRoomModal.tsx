@@ -49,7 +49,7 @@ export class CreateServiceRoomModal extends React.PureComponent<IProps, IState> 
         return (
             <div className="form-horizontal">
                 <div className="ml-5 mr-5">
-                <FormGroup isRequired label="Тема" className="text-left" classNameLabel="col-xs-3" classNameElement="col-xs-9">
+                    <FormGroup isRequired label="Тема" className="text-left" classNameLabel="col-xs-3" classNameElement="col-xs-9">
                         <Input value={theme} onChange={this.handleRequestChange('theme')} placeholder="Напишите тему вашего вопроса"/>
                     </FormGroup>
                     <FormGroup isRequired label="Вопрос" className="text-left" classNameLabel="col-xs-3" classNameElement="col-xs-9">

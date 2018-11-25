@@ -1,7 +1,9 @@
 import * as React from 'react';
-import {FormGroup, FormControl} from 'react-bootstrap';
+import {FormGroup} from 'react-bootstrap';
 import {SimpleButton} from '../../Core/SimpleButton';
 import {LoginData} from '../../../models/Common';
+import {Input} from '../../Core/Input';
+
 
 interface IProps {
     onEnterClick: (loginData: object) => void;
@@ -18,8 +20,8 @@ export class Login extends React.Component<IProps, IState> {
 
         this.state = {
             loginData: {
-                username: null,
-                password: null
+                username: null,//'a.volkov',
+                password: null//'1'
             },
             toMainPage: false
         }
@@ -47,20 +49,19 @@ export class Login extends React.Component<IProps, IState> {
         this.props.onEnterClick(this.state.loginData);
     }
     
-    render () {   
+    render () {
+        const {loginData} = this.state;
         return (
             <form className="login-form">
                 <FormGroup>
-                    <FormControl
-                        type="text"
-                        value={null}
+                    <Input
+                        value={loginData.username}
                         placeholder="Имя пользователя"
                         onChange={this.handleUsernameChange}
                     />
-                    <FormControl
-                        type="text"
-                        value={null}
-                        placeholder="Пароль"
+                    <Input
+                        value={loginData.password}
+                        placeholder="Имя Пароль"
                         onChange={this.handlePasswordChange}
                     />
                     <SimpleButton onClick={this.handleEnterClick} label="Вход" iconClass="fa-sign-in"/>

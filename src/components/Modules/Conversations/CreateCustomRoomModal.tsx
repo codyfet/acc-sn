@@ -2,26 +2,26 @@ import * as React from 'react';
 import {SimpleButton} from '../../Core/SimpleButton';
 import {ModalWindow} from '../../Core/ModalWindow';
 import {EButtonStyle} from '../../Core/Enums';
-import {EQuestionType} from '../Questions/Models';
 import {FormGroup} from '../../Core/FormGroup';
 import {TextareaAutosize} from '../../Core/TextareaAutosize';
 import {Input} from '../../Core/Input';
-
+import Select from 'react-select';
 import {User} from '../../../models/Common';
 import {IOption} from '../../Core/Models';
-import {map} from 'lodash';
+import {map, isEmpty} from 'lodash';
 import {usersMock} from './UsersMock';
+import {Checkbox} from '../..//Core/CheckBox';
 
 interface IProps {
     onClose: () => void;
     onSubmit: (request: any) => void;
-    questionType: EQuestionType;
 }
 
 interface IState {
-    question?: string;
+    info?: string;
     theme?: string;
-    selectedUsersIds?: number;
+    selectedUsersIds?: number[];
+    isPrivate?: boolean;
 }
 /**
  * Отображает вопросы по выбранному типу.
@@ -32,9 +32,10 @@ export class CreateCustomRoomModal extends React.PureComponent<IProps, IState> {
         super (props);
 
         this.state = {
-            question: '',
+            info: '',
             theme: '',
-            selectedUsersIds: null
+            selectedUsersIds: null,
+            isPrivate: false
         }
     }
 
@@ -57,23 +58,45 @@ export class CreateCustomRoomModal extends React.PureComponent<IProps, IState> {
         })
     }
 
+    handleUsersChange = (usersOptions: IOption<number>[]) => {
+        if (isEmpty(usersOptions)) {
+            this.setState({selectedUsersIds: null});
+        } else {
+            this.setState({selectedUsersIds: map(usersOptions, (userOption: IOption<number>) => {return userOption.value})});
+        }
+    }
+
      /**
      * Рендерит тело модального окна.
      */
     renderModalBody = () => {
-        const {question, theme, selectedUsersIds} = this.state;
+        const {info, theme, selectedUsersIds, isPrivate} = this.state;
 
         return (
             <div className="form-horizontal">
                 <div className="ml-5 mr-5">
-                <FormGroup isRequired label="Тема/Название" className="text-left" classNameLabel="col-xs-3" classNameElement="col-xs-9">
+                    <FormGroup isRequired label="Тема/Название" className="text-left" classNameLabel="col-xs-3" classNameElement="col-xs-9">
                         <Input value={theme} onChange={this.handleRequestChange('theme')} placeholder="Тема вашего общения"/>
                     </FormGroup>
-                    <FormGroup isRequired label="Информация о чате" className="text-left" classNameLabel="col-xs-3" classNameElement="col-xs-9">
-                        <TextareaAutosize className="form-control" value={question} onChange={this.handleRequestChange('question')} placeholder="Напишите краткую информацию"/>
+                    <FormGroup label="Информация о чате" className="text-left" classNameLabel="col-xs-3" classNameElement="col-xs-9">
+                        <TextareaAutosize className="form-control" value={info} onChange={this.handleRequestChange('info')} placeholder="Напишите краткую информацию"/>
                     </FormGroup>
-                    <FormGroup isRequired label="Информация о чате" className="text-left" classNameLabel="col-xs-3" classNameElement="col-xs-9">
-                        <Select options={this.getUsersOptions()} value={selectedUsersIds} onChange={this.handleRequestChange('selectedUsersIds')}/>
+                    <FormGroup isRequired label="Участники" className="text-left" classNameLabel="col-xs-3" classNameElement="col-xs-9">
+                        <Select
+                            options={this.getUsersOptions()}
+                            value={selectedUsersIds}
+                            onChange={this.handleUsersChange}
+                            multi
+                            closeOnSelect={false}
+                            placeholder="Выберите участников"
+                        />
+                    </FormGroup>
+                    <FormGroup label="Приватный чат" className="text-left" classNameLabel="col-xs-3" classNameElement="col-xs-9">
+                        <Checkbox
+                            onChange={this.handleRequestChange('isPrivate')}
+                            value={isPrivate}
+                            className="ml-3"
+                        />
                     </FormGroup>
                 </div>
             </div>
@@ -105,7 +128,7 @@ export class CreateCustomRoomModal extends React.PureComponent<IProps, IState> {
         return (
             <ModalWindow
                 show
-                className=""
+                dialogClassName="modal-200"
                 header={`Создание чата`}
                 body={this.renderModalBody()}
                 footer={this.renderModalFooter()}
