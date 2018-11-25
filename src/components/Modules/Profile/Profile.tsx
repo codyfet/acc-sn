@@ -50,6 +50,19 @@ export class Profile extends React.Component<IProps, IState> {
                             >
                                 {today}
                             </FormGroup>
+                            <FormGroup
+                                label="Achievements"
+                                className="text-left"
+                                classNameElement="text-right col-xs-12"
+                                classNameLabel="col-xs-12"
+                            >
+                                <img className="achievement-image mt-1" src="https://peoplebeta.accenture.com/flairimages/73a60c9e-4285-482d-91a8-be6ccbee646c.gif"/>
+                                <img className="achievement-image mt-1" src="https://peoplebeta.accenture.com/flairimages/0912f9da-63d6-4433-bd77-cc30b3465371.gif"/>
+                                <img className="achievement-image mt-1" src="https://peoplebeta.accenture.com/flairimages/c85a04a9-c856-4604-b2ec-0413c370ad7e.gif"/>
+                                <img className="achievement-image mt-1" src="https://peoplebeta.accenture.com/flairimages/90cd28a7-662a-43d0-b9b2-76677f1d2232.gif"/>
+                                <img className="achievement-image mt-1" src="https://people.accenture.com/FlairImages/2423.gif"/>
+                            </FormGroup>
+                            
                         </div>
                     </div>
                     <div className="col-xs-12 layout-panel pt-7 pb-7">
