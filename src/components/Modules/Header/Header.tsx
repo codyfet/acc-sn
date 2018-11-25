@@ -1,11 +1,30 @@
 import * as React from 'react';
-import {Navbar, FormGroup, FormControl, Button} from 'react-bootstrap';
+import {Navbar, FormGroup, Button} from 'react-bootstrap';
+import {Input} from '../../Core/Input';
 
+interface IState {
+    searchText: string;
+}
 /**
  * Компонент хедер приложения.
  */
-export class Header extends React.Component {
+export class Header extends React.Component<{}, IState> {
+
+    constructor (props: any) {
+        super (props);
+
+        this.state = {
+            searchText: ''
+        }
+    }
+
+    handleChangeSearch = (searchText: string) => {
+        this.setState({searchText});
+    }
+
     render () {
+        const {searchText} = this.state;
+
         return (
             <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
@@ -19,9 +38,9 @@ export class Header extends React.Component {
                 <Navbar.Collapse>
                     <Navbar.Form pullRight>
                         <FormGroup>
-                            <FormControl type="text" placeholder="Search" />
+                            <Input value={searchText} onChange={this.handleChangeSearch}  placeholder="Поиск людей, интересов"/>
                         </FormGroup>{' '}
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit">Поиск</Button>
                     </Navbar.Form>
                 </Navbar.Collapse>
             </Navbar>            
